@@ -71,3 +71,20 @@ export const getMostStarredRepos = (
 const sortDataByStarGazers = (dataArray: IRepository[]): IRepository[] | [] => {
   return dataArray.sort((a, b) => b.stargazers_count - a.stargazers_count);
 };
+
+//FUNCTIONS TO GET REPOS ALPHABETICALLY AND THAT ITS NAME DOESNT START WITH LETTER "H"
+
+export const getReposAlphabetically = (
+  dataArray: IRepository[]
+): IRepository[] | [] => {
+  const sortedData = sortDataAlphabetically(dataArray);
+  return sortedData.filter((repo) => repo.name[0].toLowerCase() !== "h");
+};
+
+const sortDataAlphabetically = (
+  dataArray: IRepository[]
+): IRepository[] | [] => {
+  return dataArray.sort((a, b) =>
+    a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
+  );
+};
