@@ -52,3 +52,9 @@ const sortDataByDate = (dataArray: IRepository[]): IRepository[] | [] => {
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
   );
 };
+
+//FUNCTION TO GET THE SUM OF ALL REPOS STARS
+
+export const getSumOfReposStars = (dataArray: IRepository[]): number | [] => {
+  return dataArray.reduce((acc, repo) => acc + repo.stargazers_count, 0);
+};
