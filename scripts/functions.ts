@@ -27,8 +27,28 @@ export const getArrayOfData = async (): Promise<IRepository[]> => {
   });
 };
 
-export const getFilteredsStargazers = (
-  dataArray: IRepository[] | []
-): IRepository[] => {
+export const getReposMoreThanFiveStars = (
+  dataArray: IRepository[]
+): IRepository[] | [] => {
   return dataArray.filter((repo) => repo.stargazers_count > 5);
+};
+
+// FUCNTIONS TO RETURN THE 5 LAST UPDATED REPOS
+
+export const getLastUpdatedRepos = (
+  dataArray: IRepository[]
+): IRepository[] | [] => {
+  const sortedData = sortDataByDate(dataArray);
+  return getTopFive(sortedData);
+};
+
+const getTopFive = (dataArray: IRepository[]): IRepository[] | [] => {
+  return dataArray.slice(0, 5);
+};
+
+const sortDataByDate = (dataArray: IRepository[]): IRepository[] | [] => {
+  return dataArray.sort(
+    (a, b) =>
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+  );
 };
