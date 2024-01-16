@@ -58,3 +58,16 @@ const sortDataByDate = (dataArray: IRepository[]): IRepository[] | [] => {
 export const getSumOfReposStars = (dataArray: IRepository[]): number | [] => {
   return dataArray.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 };
+
+//FUNCTIONS TO GET THE TOP 5 REPOS WITH MORE STARS
+
+export const getMostStarredRepos = (
+  dataArray: IRepository[]
+): IRepository[] | [] => {
+  const sortedData = sortDataByStarGazers(dataArray);
+  return getTopFive(sortedData);
+};
+
+const sortDataByStarGazers = (dataArray: IRepository[]): IRepository[] | [] => {
+  return dataArray.sort((a, b) => b.stargazers_count - a.stargazers_count);
+};
