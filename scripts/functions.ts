@@ -13,49 +13,43 @@ const getData = async (): Promise<any> => {
   }
 };
 
-// FUCNTIONS TO RETURN THE REPOS WIHT MORE THAN FIVE STARS
+// FUCNTIONS TO RETURN THE REPOS WITH MORE THAN FIVE STARS
 
 export const getArrayOfData = async (): Promise<IRepository[]> => {
   const data = await getData();
 
-  return data.map((repo: any) => {
-    return {
-      name: repo.name,
-      stargazers_count: repo.stargazers_count,
-      updated_at: repo.updated_at,
-    };
-  });
+  return data.map((repo: any) => ({
+    name: repo.name,
+    stargazers_count: repo.stargazers_count,
+    updated_at: repo.updated_at,
+  }));
 };
 
 export const getReposMoreThanFiveStars = (
   dataArray: IRepository[]
-): IRepository[] | [] => {
-  return dataArray.filter((repo) => repo.stargazers_count > 5);
-};
+): IRepository[] => dataArray.filter((repo) => repo.stargazers_count > 5);
 
 // FUCNTIONS TO RETURN THE 5 LAST UPDATED REPOS
 
 export const getLastUpdatedRepos = (
   dataArray: IRepository[]
-): IRepository[] | [] => {
+): IRepository[] => {
   const sortedData = sortDataByDate(dataArray);
   return getTopFive(sortedData);
 };
 
-const getTopFive = (dataArray: IRepository[]): IRepository[] | [] => {
-  return dataArray.slice(0, 5);
-};
+const getTopFive = (dataArray: IRepository[]): IRepository[] =>
+  dataArray.slice(0, 5);
 
-const sortDataByDate = (dataArray: IRepository[]): IRepository[] | [] => {
-  return dataArray.sort(
+const sortDataByDate = (dataArray: IRepository[]): IRepository[] =>
+  dataArray.sort(
     (a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
   );
-};
 
 //FUNCTION TO GET THE SUM OF ALL REPOS STARS
 
-export const getSumOfReposStars = (dataArray: IRepository[]): number | [] => {
+export const getSumOfReposStars = (dataArray: IRepository[]): number => {
   return dataArray.reduce((acc, repo) => acc + repo.stargazers_count, 0);
 };
 
@@ -63,28 +57,24 @@ export const getSumOfReposStars = (dataArray: IRepository[]): number | [] => {
 
 export const getMostStarredRepos = (
   dataArray: IRepository[]
-): IRepository[] | [] => {
+): IRepository[] => {
   const sortedData = sortDataByStarGazers(dataArray);
   return getTopFive(sortedData);
 };
 
-const sortDataByStarGazers = (dataArray: IRepository[]): IRepository[] | [] => {
-  return dataArray.sort((a, b) => b.stargazers_count - a.stargazers_count);
-};
+const sortDataByStarGazers = (dataArray: IRepository[]): IRepository[] =>
+  dataArray.sort((a, b) => b.stargazers_count - a.stargazers_count);
 
 //FUNCTIONS TO GET REPOS ALPHABETICALLY AND THAT ITS NAME DOESNT START WITH LETTER "H"
 
 export const getReposAlphabetically = (
   dataArray: IRepository[]
-): IRepository[] | [] => {
+): IRepository[] => {
   const sortedData = sortDataAlphabetically(dataArray);
   return sortedData.filter((repo) => repo.name[0].toLowerCase() !== "h");
 };
 
-const sortDataAlphabetically = (
-  dataArray: IRepository[]
-): IRepository[] | [] => {
-  return dataArray.sort((a, b) =>
+const sortDataAlphabetically = (dataArray: IRepository[]): IRepository[] =>
+  dataArray.sort((a, b) =>
     a.name.localeCompare(b.name, undefined, { sensitivity: "base" })
   );
-};
